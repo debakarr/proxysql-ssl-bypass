@@ -1,0 +1,45 @@
+datadir="/var/lib/proxysql"
+
+admin_variables = {
+    admin_credentials="admin:admin;radmin:radmin"
+    mysql_ifaces="0.0.0.0:6032"
+}
+
+mysql_variables = {
+    threads=4
+    max_connections=2000
+    interfaces="0.0.0.0:6033"
+    monitor_username="root"
+    monitor_password="rootpw"
+    
+    # Enable SSL and point to the mounted certs
+    have_ssl=true
+    ssl_pvt_key="/certs/proxysql-key.pem"
+    ssl_cert="/certs/proxysql-cert.pem"
+}
+
+mysql_servers = (
+    {
+        address="percona-mysql"
+        port=3306
+        hostgroup=0
+        max_connections=2000
+    }
+)
+
+mysql_users = (
+    {
+        username = "user_no_ssl"
+        password = "pass_no_ssl"
+        default_hostgroup = 0
+        active = 1
+        use_ssl = 0
+    },
+    {
+        username = "user_with_ssl"
+        password = "pass_with_ssl"
+        default_hostgroup = 0
+        active = 1
+        use_ssl = 1
+    }
+)
