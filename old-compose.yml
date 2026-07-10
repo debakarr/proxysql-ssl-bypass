@@ -15,7 +15,9 @@ services:
     command: ["proxysql", "-f", "-c", "/etc/proxysql.cnf", "--initial"]
     volumes:
       - ./proxysql.cnf:/etc/proxysql.cnf
-      - ./certs:/certs
+      - ./certs/ca.pem:/var/lib/proxysql/proxysql-ca.pem
+      - ./certs/proxysql-cert.pem:/var/lib/proxysql/proxysql-cert.pem
+      - ./certs/proxysql-key.pem:/var/lib/proxysql/proxysql-key.pem
     ports:
       - "6033:6033"
       - "6032:6032"
