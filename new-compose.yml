@@ -7,18 +7,19 @@ services:
       MYSQL_ROOT_PASSWORD: rootpw
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    # Re-enable native passwords in 8.4 to maintain the exact same test conditions
     command: --mysql-native-password=ON
 
   proxysql:
     image: percona/proxysql3:3.0.6
-    # Force ProxySQL 3 to load from your config file on startup
     command: ["proxysql", "-f", "-c", "/etc/proxysql.cnf", "--initial"]
     volumes:
       - ./proxysql.cnf:/etc/proxysql.cnf
-      - ./certs:/certs
+      # Mount certificates to the exact hardcoded paths ProxySQL expects
+      - ./certs/ca.pem:/var/lib/proxysql/proxysql-ca.pem
+      - ./certs/proxysql-cert.pem:/var/lib/proxysql/proxysql-cert.pem
+      - ./certs/proxysql-key.pem:/var/lib/proxysql/proxysql-key.pem
     ports:
-      - "6033:6033" # MySQL Client Port
-      - "6032:6032" # Admin Port
+      - "6033:6033"
+      - "6032:6032"
     depends_on:
       - percona-mysql

@@ -14,8 +14,6 @@ mysql_variables = {
     
     # Enable SSL and point to the mounted certs
     have_ssl=true
-    ssl_pvt_key="/certs/proxysql-key.pem"
-    ssl_cert="/certs/proxysql-cert.pem"
 }
 
 mysql_servers = (
@@ -41,5 +39,13 @@ mysql_users = (
         default_hostgroup = 0
         active = 1
         use_ssl = 1
+    },
+    {
+        username = "spiffe_user"
+        password = "spiffe_password"
+        default_hostgroup = 0
+        active = 1
+        use_ssl = 1
+        attributes = "{\"spiffe_id\": \"spiffe://test.pytest-db-framework/ns/default/sa/client\"}"
     }
 )

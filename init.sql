@@ -8,4 +8,7 @@ CREATE USER 'user_with_ssl'@'%' IDENTIFIED WITH mysql_native_password BY 'pass_w
 GRANT ALL PRIVILEGES ON appdb.* TO 'user_no_ssl'@'%';
 GRANT ALL PRIVILEGES ON appdb.* TO 'user_with_ssl'@'%';
 
+CREATE USER 'spiffe_user'@'%' IDENTIFIED WITH mysql_native_password BY 'spiffe_password';
+GRANT ALL PRIVILEGES ON appdb.* TO 'spiffe_user'@'%';
+
 FLUSH PRIVILEGES;
